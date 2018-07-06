@@ -18,6 +18,17 @@ export default class AuthScreen extends React.Component<{}> {
     password: '',
   };
 
+  componentDidMount() {
+    const { checkToken } = this.props;
+    checkToken();
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.ticket && newProps.ticket.length > 0) {
+      this.props.navigation.navigate('Main');
+    }
+  }
+
   render() {
     if (this.props.isLoggingIn) {
       return (
@@ -27,6 +38,7 @@ export default class AuthScreen extends React.Component<{}> {
         </View>
       );
     }
+
     return (
       <View>
         <FormLabel>Email</FormLabel>

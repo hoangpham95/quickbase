@@ -4,7 +4,7 @@
 
 import { connect } from 'react-redux';
 
-import { login } from 'src/actions/login';
+import { login, checkToken } from 'src/actions/login';
 import AuthComponent from 'src/components/AuthScreen/component';
 
 const mapStateToProps = state => {
@@ -22,6 +22,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     login: user => dispatch(login(user)),
+    checkToken: () => dispatch(checkToken()),
   };
 };
 

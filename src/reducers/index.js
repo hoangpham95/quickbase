@@ -13,6 +13,17 @@ import {
   loginError,
 } from 'src/reducers/auth';
 
+import {
+  isGettingParts,
+  parts,
+  getPartsFailure,
+  getPartsError,
+  isAddingPart,
+  addPartSuccess,
+  addPartFailure,
+  addPartError,
+} from 'src/reducers/parts';
+
 export default combineReducers({
   navigation,
 
@@ -20,4 +31,14 @@ export default combineReducers({
   isLoggingIn,
   loginFailure,
   loginError,
+
+  isGettingParts,
+  parts,
+  getPartsFailure,
+  getPartsError,
+
+  isAddingPart,
+  addPartSuccess,
+  addPartFailure,
+  addPartError,
 });
