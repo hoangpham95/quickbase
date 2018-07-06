@@ -10,6 +10,7 @@ import {
   FormValidationMessage,
   Icon,
 } from 'react-native-elements';
+import { RNCamera } from 'react-native-camera';
 
 import styles from 'src/components/AddPartScreen/styles';
 import { COLOR_PRIMARY } from 'src/theme';
@@ -22,6 +23,7 @@ export default class AddPartScreen extends React.Component<{}> {
   };
 
   state = {
+    showCamera: false,
     name: '',
     barcode: '',
   };
@@ -53,13 +55,15 @@ export default class AddPartScreen extends React.Component<{}> {
         <View style={{ flexDirection: 'row' }}>
           <View style={{ width: '87%' }}>
             <FormInput
+              value={this.state.barcode}
               keyboardType={'number'}
               placeholder={'Enter barcode or scan'}
               onChangeText={text => this.setState({ barcode: text })}
             />
           </View>
-          <Icon name={'camera-alt'} color={COLOR_PRIMARY} />
+          {this.renderCameraButton()}
         </View>
+        {this.renderCamera()}
         {this.renderError()}
         <Icon
           color={COLOR_PRIMARY}
@@ -78,6 +82,44 @@ export default class AddPartScreen extends React.Component<{}> {
     const { ticket, addPart } = this.props;
 
     addPart(ticket, { name, barcode });
+  }
+
+  renderCameraButton() {
+    const iconName = this.state.showCamera ? 'close' : 'camera-alt';
+    const onClick = prevState => ({
+      showCamera: !prevState.showCamera,
+    });
+    return (
+      <Icon
+        name={iconName}
+        color={COLOR_PRIMARY}
+        onPress={() => this.setState(onClick)}
+      />
+    );
+  }
+
+  renderCamera() {
+    if (this.state.showCamera) {
+      return (
+        <RNCamera
+          style={{ flex: 1 }}
+          barcodeFinderVisible={this.state.showCamera}
+          onBarCodeRead={this.onBarCodeRead.bind(this)}
+        />
+      );
+    }
+
+    return null;
+  }
+
+  onBarCodeRead(scanResult) {
+    console.log('Scan result:', scanResult);
+    if (scanResult.data) {
+      this.setState(prevState => ({
+        barcode: scanResult.data,
+        showCamera: false,
+      }));
+    }
   }
 
   renderError() {
