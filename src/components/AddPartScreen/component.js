@@ -53,6 +53,7 @@ export default class AddPartScreen extends React.Component<{}> {
         <View style={{ flexDirection: 'row' }}>
           <View style={{ width: '87%' }}>
             <FormInput
+              keyboardType={'number'}
               placeholder={'Enter barcode or scan'}
               onChangeText={text => this.setState({ barcode: text })}
             />

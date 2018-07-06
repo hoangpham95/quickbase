@@ -6,6 +6,7 @@ import React from 'react';
 
 import { FlatList, View, Text, RefreshControl } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
+import Swipeout from 'react-native-swipeout';
 
 import styles from 'src/components/MainScreen/styles';
 import { COLOR_PRIMARY } from 'src/theme';
@@ -36,22 +37,29 @@ export default class MainScreen extends React.Component<{}> {
     if (this.props.isGettingParts) {
       return <Text style={styles.loadingText}>Getting data...</Text>;
     }
+    return null;
   }
 
   renderPartList() {
-    const { isGettingParts, parts } = this.props;
+    const { parts } = this.props;
     return (
       <FlatList
         data={parts}
         refreshControl={this.getRefreshControl()}
-        renderItem={({ item }) => (
-          <ListItem
-            key={item.update_id}
-            title={item.name}
-            subtitle={`Barcode: ${item.barcode}`}
-          />
-        )}
+        renderItem={({ item }) => this.renderListItem(item)}
       />
+    );
+  }
+
+  renderListItem(item) {
+    const buttons = [{ text: 'Delete', backgroundColor: 'red' }];
+    return (
+      <Swipeout right={buttons}>
+        <View style={styles.listItem}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text>Barcode: {item.barcode}</Text>
+        </View>
+      </Swipeout>
     );
   }
 
