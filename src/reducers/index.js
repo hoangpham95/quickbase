@@ -22,6 +22,10 @@ import {
   addPartSuccess,
   addPartFailure,
   addPartError,
+  barcodeDeleting,
+  deletePartSuccess,
+  deletePartFailure,
+  deletePartError,
 } from 'src/reducers/parts';
 
 export default combineReducers({
@@ -41,4 +45,9 @@ export default combineReducers({
   addPartSuccess,
   addPartFailure,
   addPartError,
+
+  barcodeDeleting,
+  deletePartSuccess,
+  deletePartFailure,
+  deletePartError,
 });

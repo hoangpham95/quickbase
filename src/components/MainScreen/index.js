@@ -4,7 +4,7 @@
 
 import { connect } from 'react-redux';
 
-import { getParts } from 'src/actions/parts';
+import { getParts, deletePart } from 'src/actions/parts';
 import MainScreenComponent from 'src/components/MainScreen/component';
 
 const mapStateToProps = state => {
@@ -14,14 +14,31 @@ const mapStateToProps = state => {
     isGettingParts,
     getPartsFailure,
     getPartsError,
+
+    barcodeDeleting,
+    deletePartSuccess,
+    deletePartFailure,
+    deletePartError,
   } = state;
-  return { ticket, parts, isGettingParts, getPartsFailure, getPartsError };
+
+  return {
+    ticket,
+    parts,
+    isGettingParts,
+    getPartsFailure,
+    getPartsError,
+    barcodeDeleting,
+    deletePartSuccess,
+    deletePartFailure,
+    deletePartError,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     getParts: ticket => dispatch(getParts(ticket)),
+    deletePart: (ticket, barcode) => dispatch(deletePart(ticket, barcode)),
   };
 };
 

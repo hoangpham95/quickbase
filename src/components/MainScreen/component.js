@@ -19,8 +19,13 @@ export default class MainScreen extends React.Component<{}> {
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({ handleRefresh: this.getParts });
     this.getParts();
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.deletePartSuccess) {
+      this.getParts();
+    }
   }
 
   render() {
@@ -52,10 +57,20 @@ export default class MainScreen extends React.Component<{}> {
   }
 
   renderListItem(item) {
-    const buttons = [{ text: 'Delete', backgroundColor: 'red' }];
+    const { deletingBarcode, ticket } = this.props;
+
+    const button = [
+      {
+        text: 'Delete',
+        backgroundColor: 'red',
+        onPress: () => this.props.deletePart(ticket, item.barcode),
+      },
+    ];
+    const deletingStyle =
+      deletingBarcode === item.barcode ? { backgroundColor: 'lightgray' } : {};
     return (
-      <Swipeout right={buttons}>
-        <View style={styles.listItem}>
+      <Swipeout right={button} close={deletingBarcode === ''}>
+        <View style={[styles.listItem, deletingStyle]}>
           <Text style={styles.name}>{item.name}</Text>
           <Text>Barcode: {item.barcode}</Text>
         </View>

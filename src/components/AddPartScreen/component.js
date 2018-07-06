@@ -35,14 +35,6 @@ export default class AddPartScreen extends React.Component<{}> {
   }
 
   render() {
-    if (this.props.isAddingPart) {
-      return (
-        <View>
-          <ActivityIndicator size={'large'} />
-          <Text>Adding part...</Text>
-        </View>
-      );
-    }
     return (
       <View style={styles.root}>
         <FormLabel labelStyle={styles.labelStyle}>Name</FormLabel>
@@ -65,14 +57,7 @@ export default class AddPartScreen extends React.Component<{}> {
         </View>
         {this.renderCamera()}
         {this.renderError()}
-        <Icon
-          color={COLOR_PRIMARY}
-          containerStyle={styles.fabButton}
-          name={'check'}
-          raised
-          reverse
-          onPress={this.addPart.bind(this)}
-        />
+        {this.renderAddButton()}
       </View>
     );
   }
@@ -130,5 +115,31 @@ export default class AddPartScreen extends React.Component<{}> {
         </FormValidationMessage>
       );
     }
+  }
+
+  renderAddButton() {
+    if (!this.state.showCamera) {
+      if (this.props.isAddingPart) {
+        return (
+          <ActivityIndicator
+            color={COLOR_PRIMARY}
+            size={'large'}
+            style={styles.fabButton}
+          />
+        );
+      }
+      return (
+        <Icon
+          color={COLOR_PRIMARY}
+          containerStyle={styles.fabButton}
+          name={'check'}
+          raised
+          reverse
+          onPress={this.addPart.bind(this)}
+        />
+      );
+    }
+
+    return false;
   }
 }
