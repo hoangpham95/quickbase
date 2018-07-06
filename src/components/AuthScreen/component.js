@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import { View, ActivityIndicator, Text } from 'react-native';
+import { Image, View, ActivityIndicator, Text } from 'react-native';
 import {
   FormLabel,
   FormInput,
@@ -12,7 +12,14 @@ import {
   Button,
 } from 'react-native-elements';
 
+import styles from 'src/components/AuthScreen/styles';
+import { COLOR_PRIMARY } from 'src/theme';
+
 export default class AuthScreen extends React.Component<{}> {
+  static navigationOptions = {
+    header: null,
+  };
+
   state = {
     email: '',
     password: '',
@@ -30,33 +37,48 @@ export default class AuthScreen extends React.Component<{}> {
   }
 
   render() {
-    if (this.props.isLoggingIn) {
-      return (
-        <View>
-          <ActivityIndicator size={'large'} />
-          <Text>Logging in...</Text>
-        </View>
-      );
-    }
-
     return (
-      <View>
-        <FormLabel>Email</FormLabel>
+      <View style={styles.root}>
+        <Image
+          style={styles.imageStyle}
+          source={require('src/image/quickbase.jpg')}
+        />
+        <FormLabel labelStyle={styles.labelStyle}>Email</FormLabel>
         <FormInput
           onChangeText={text => this.setState({ email: text })}
           keyboardType={'email-address'}
           placeholder={'Enter your email'}
         />
 
-        <FormLabel>Password</FormLabel>
+        <FormLabel labelStyle={styles.labelStyle}>Password</FormLabel>
         <FormInput
           onChangeText={text => this.setState({ password: text })}
           secureTextEntry={true}
           placeholder={'Enter your password'}
         />
         {this.renderError()}
-        <Button title={'Sign in'} onPress={this.login.bind(this)} />
+        {this.renderSignIn()}
       </View>
+    );
+  }
+
+  renderSignIn() {
+    if (this.props.isLoggingIn) {
+      return (
+        <ActivityIndicator
+          style={styles.button}
+          size={'large'}
+          color={COLOR_PRIMARY}
+        />
+      );
+    }
+    return (
+      <Button
+        containerViewStyle={styles.button}
+        backgroundColor={COLOR_PRIMARY}
+        title={'Sign in'}
+        onPress={this.login.bind(this)}
+      />
     );
   }
 

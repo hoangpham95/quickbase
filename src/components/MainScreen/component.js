@@ -4,65 +4,81 @@
 
 import React from 'react';
 
-import { View, ActivityIndicator, Text } from 'react-native';
-import { List, ListItem, Icon } from 'react-native-elements';
+import { FlatList, View, Text, RefreshControl } from 'react-native';
+import { ListItem, Icon } from 'react-native-elements';
+
+import styles from 'src/components/MainScreen/styles';
+import { COLOR_PRIMARY } from 'src/theme';
 
 export default class MainScreen extends React.Component<{}> {
   static navigationOptions = {
     title: 'Parts',
-    headerRight: <Icon name={'refresh'} />,
+    headerStyle: styles.headerStyle,
+    headerTintColor: 'white',
   };
 
   componentDidMount() {
-    console.log('COMPONENT DID MOUNT');
-    const { getParts, ticket } = this.props;
-    getParts(ticket);
+    this.props.navigation.setParams({ handleRefresh: this.getParts });
+    this.getParts();
   }
 
   render() {
-    const { isGettingParts, parts } = this.props;
+    return (
+      <View style={styles.rootContainer}>
+        {this.renderPending()}
+        {this.renderPartList()}
+        {this.renderAddButton()}
+      </View>
+    );
+  }
 
-    if (isGettingParts) {
-      return (
-        <View>
-          <Text>Getting data...</Text>
-          <ActivityIndicator />
-        </View>
-      );
-    } else if (this.props.parts) {
-      return (
-        <View>
-          {this.renderPartList()}
-          {this.renderAddButton()}
-        </View>
-      );
+  renderPending() {
+    if (this.props.isGettingParts) {
+      return <Text style={styles.loadingText}>Getting data...</Text>;
     }
   }
 
   renderPartList() {
     const { isGettingParts, parts } = this.props;
     return (
-      <List>
-        {parts.map((l, idx) => (
+      <FlatList
+        data={parts}
+        refreshControl={this.getRefreshControl()}
+        renderItem={({ item }) => (
           <ListItem
-            key={l.update_id}
-            title={l.name}
-            subtitle={`Barcode: ${l.barcode}`}
+            key={item.update_id}
+            title={item.name}
+            subtitle={`Barcode: ${item.barcode}`}
           />
-        ))}
-      </List>
+        )}
+      />
+    );
+  }
+
+  getRefreshControl() {
+    return (
+      <RefreshControl
+        refreshing={this.props.isGettingParts}
+        onRefresh={this.getParts.bind(this)}
+      />
     );
   }
 
   renderAddButton() {
     return (
       <Icon
+        containerStyle={styles.fabButton}
         raised
         reverse
+        color={COLOR_PRIMARY}
         name={'add'}
-        color={'#517fa4'}
         onPress={() => this.props.navigation.navigate('AddPart')}
       />
     );
+  }
+
+  getParts() {
+    const { getParts, ticket } = this.props;
+    getParts(ticket);
   }
 }

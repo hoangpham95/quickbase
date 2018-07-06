@@ -11,10 +11,16 @@ import {
   Icon,
 } from 'react-native-elements';
 
+import styles from 'src/components/AddPartScreen/styles';
+import { COLOR_PRIMARY } from 'src/theme';
+
 export default class AddPartScreen extends React.Component<{}> {
   static navigationOptions = {
     title: 'Add new part',
+    headerStyle: styles.headerStyle,
+    headerTintColor: 'white',
   };
+
   state = {
     name: '',
     barcode: '',
@@ -36,14 +42,14 @@ export default class AddPartScreen extends React.Component<{}> {
       );
     }
     return (
-      <View>
-        <FormLabel>Name</FormLabel>
+      <View style={styles.root}>
+        <FormLabel labelStyle={styles.labelStyle}>Name</FormLabel>
         <FormInput
           placeholder={'Enter part name'}
           onChangeText={text => this.setState({ name: text })}
         />
 
-        <FormLabel>Barcode</FormLabel>
+        <FormLabel labelStyle={styles.labelStyle}>Barcode</FormLabel>
         <View style={{ flexDirection: 'row' }}>
           <View style={{ width: '87%' }}>
             <FormInput
@@ -51,10 +57,17 @@ export default class AddPartScreen extends React.Component<{}> {
               onChangeText={text => this.setState({ barcode: text })}
             />
           </View>
-          <Icon name={'camera'} />
+          <Icon name={'camera-alt'} color={COLOR_PRIMARY} />
         </View>
         {this.renderError()}
-        <Icon name={'check'} raised reverse onPress={this.addPart.bind(this)} />
+        <Icon
+          color={COLOR_PRIMARY}
+          containerStyle={styles.fabButton}
+          name={'check'}
+          raised
+          reverse
+          onPress={this.addPart.bind(this)}
+        />
       </View>
     );
   }

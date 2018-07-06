@@ -1,3 +1,7 @@
+/**
+ * @flow
+ */
+
 import { StackNavigator } from 'react-navigation';
 
 import AuthScreen from 'src/components/AuthScreen';
