@@ -57,7 +57,7 @@ export default class MainScreen extends React.Component<{}> {
   }
 
   renderListItem(item) {
-    const { deletingBarcode, ticket } = this.props;
+    const { barcodeDeleting, ticket } = this.props;
 
     const button = [
       {
@@ -67,9 +67,9 @@ export default class MainScreen extends React.Component<{}> {
       },
     ];
     const deletingStyle =
-      deletingBarcode === item.barcode ? { backgroundColor: 'lightgray' } : {};
+      barcodeDeleting === item.barcode ? { backgroundColor: 'lightgray' } : {};
     return (
-      <Swipeout right={button} close={deletingBarcode === ''}>
+      <Swipeout right={button} close={barcodeDeleting === ''}>
         <View style={[styles.listItem, deletingStyle]}>
           <Text style={styles.name}>{item.name}</Text>
           <Text>Barcode: {item.barcode}</Text>
