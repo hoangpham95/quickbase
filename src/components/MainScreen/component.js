@@ -16,6 +16,7 @@ export default class MainScreen extends React.Component<{}> {
     title: 'Parts',
     headerStyle: styles.headerStyle,
     headerTintColor: 'white',
+    headerLeft: null,
   };
 
   componentDidMount() {

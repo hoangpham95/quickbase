@@ -35,18 +35,22 @@ ext {
 }
 
 subprojects {
-
-    project.evaluationDependsOn(':app')
-//[PART TO ADD START]
     project.configurations.all {
-
         resolutionStrategy.eachDependency { details ->
-
             if (details.requested.group == 'com.android.support'
                     && !details.requested.name.contains('multidex') ) {
-                details.useVersion "27.1.0"
+                details.useVersion "27.1.1"
             }
         }
     }
-//[PART TO ADD END]
+    afterEvaluate {
+        android {
+            compileSdkVersion 27
+            buildToolsVersion "27.0.3"
+
+            defaultConfig {
+                targetSdkVersion 27
+            }
+        }
+    }
 }
