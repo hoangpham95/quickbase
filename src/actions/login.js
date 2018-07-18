@@ -62,7 +62,6 @@ export const login = user => {
       .then(result => {
         const data = result.data;
         parseString(data, async (err, xmlResult) => {
-          console.log('xmlResult', xmlResult);
           if (xmlResult && parseInt(xmlResult.qdbapi.errcode[0], 10) === 0) {
             const ticket = xmlResult.qdbapi.ticket[0];
             await AsyncStorage.setItem(TICKET, ticket);

@@ -74,7 +74,6 @@ export const getParts = (ticket: string) => {
         parseString(data, (err, xmlResult) => {
           if (xmlResult && parseInt(xmlResult.qdbapi.errcode[0], 10) === 0) {
             const parts = parseParts(xmlResult.qdbapi.record);
-            console.log(parts);
             dispatch(successGetParts(parts));
           } else if (xmlResult.qdbapi.errcode) {
             const error = xmlResult.adbapi.errtext[0];
@@ -186,7 +185,6 @@ export const deletePart = (ticket: string, barcode: string) => {
         query: `{'8'.EX.'${barcode}'}`,
       },
     });
-    console.log('query', xmlquery);
     api({
       method: 'POST',
       url: 'https://hoangpham.quickbase.com/db/bnts6segz',
@@ -199,7 +197,6 @@ export const deletePart = (ticket: string, barcode: string) => {
       .then(result => {
         const data = result.data;
         parseString(data, (err, xmlResult) => {
-          console.log(xmlResult);
           if (xmlResult && parseInt(xmlResult.qdbapi.errcode, 10) === 0) {
             dispatch(successDeletePart());
           } else if (xmlResult.qdbapi.errcode) {

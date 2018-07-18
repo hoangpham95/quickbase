@@ -98,7 +98,6 @@ export default class AddPartScreen extends React.Component<{}> {
   }
 
   onBarCodeRead(scanResult) {
-    console.log('Scan result:', scanResult);
     if (scanResult.data) {
       this.setState(prevState => ({
         barcode: scanResult.data,
