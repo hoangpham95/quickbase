@@ -13,7 +13,7 @@ import Navigator from 'src/navigator';
 
 const addListener = createReduxBoundAddListener('root');
 
-class AppComponent extends React.Component {
+class AppComponent extends React.Component<{}> {
   render() {
     return (
       <Navigator
